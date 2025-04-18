@@ -18,6 +18,8 @@ import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
+import AdminLogin from "./pages/admin/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -39,7 +41,8 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="/admin" element={<AdminLayout />}>
-            {/* Admin routes will go here when implemented */}
+            <Route path="login" element={<AdminLogin />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
