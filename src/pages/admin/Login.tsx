@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -8,9 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from "@/components/ui/use-toast";
 
-// Replace these with your actual Supabase details from your dashboard
-const supabaseUrl = process.env.SUPABASE_URL || "https://your-project.supabase.co";
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "your-anon-key";
+// ✅ Use environment variables securely
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -22,34 +21,24 @@ const AdminLogin = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
 
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: error.message,
-        });
-        return;
-      }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-      toast({
-        title: "Login successful",
-        description: "Welcome to the admin dashboard",
-      });
-      navigate('/admin/dashboard');
-    } catch (error) {
-      console.error('Error logging in:', error);
+    if (error) {
       toast({
         variant: "destructive",
-        title: "Login error",
-        description: "An unexpected error occurred",
+        title: "Login failed",
+        description: error.message,
       });
+      return;
     }
+
+    toast({
+      title: "Login successful",
+      description: "Welcome to the admin dashboard",
+    });
+
+    navigate('/admin/dashboard');
   };
 
   return (
@@ -81,9 +70,7 @@ const AdminLogin = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
+            <Button type="submit" className="w-full">Login</Button>
           </form>
         </CardContent>
       </Card>
