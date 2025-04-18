@@ -6,10 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from '@supabase/supabase-js';
+import { useToast } from "@/components/ui/use-toast";
 
-// Initialize Supabase client - make sure to use your actual Supabase URL and anon key
-const supabaseUrl = "https://your-project.supabase.co";
-const supabaseAnonKey = "your-anon-key";
+// Replace these with your actual Supabase details from your dashboard
+const supabaseUrl = process.env.SUPABASE_URL || "https://your-project.supabase.co";
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "your-anon-key";
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -17,6 +18,7 @@ const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,11 +28,27 @@ const AdminLogin = () => {
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Login failed",
+          description: error.message,
+        });
+        return;
+      }
 
+      toast({
+        title: "Login successful",
+        description: "Welcome to the admin dashboard",
+      });
       navigate('/admin/dashboard');
     } catch (error) {
       console.error('Error logging in:', error);
+      toast({
+        variant: "destructive",
+        title: "Login error",
+        description: "An unexpected error occurred",
+      });
     }
   };
 

@@ -5,9 +5,9 @@ import { createClient } from '@supabase/supabase-js';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// Initialize Supabase client - make sure to use your actual Supabase URL and anon key
-const supabaseUrl = "https://your-project.supabase.co";
-const supabaseAnonKey = "your-anon-key";
+// Replace these with your actual Supabase details from your dashboard
+const supabaseUrl = process.env.SUPABASE_URL || "https://your-project.supabase.co";
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "your-anon-key";
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
