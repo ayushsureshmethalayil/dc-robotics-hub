@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Robot } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -67,7 +66,7 @@ const Index = () => {
                   className="flex items-center space-x-2 text-gray-600 animate-fade-in"
                   style={{ animationDelay: `${(index + 4) * 200}ms` }}
                 >
-                  <Robot className="h-5 w-5 text-black flex-shrink-0" />
+                  <Bot className="h-5 w-5 text-black flex-shrink-0" />
                   <span>{feature}</span>
                 </li>
               ))}
