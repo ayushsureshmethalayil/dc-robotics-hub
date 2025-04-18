@@ -1,13 +1,18 @@
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createClientComponentClient } from '@supabase/auth-helpers-react';
+import { createClient } from '@supabase/supabase-js';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+// Initialize Supabase client - make sure to use your actual Supabase URL and anon key
+const supabaseUrl = "https://your-project.supabase.co";
+const supabaseAnonKey = "your-anon-key";
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     checkUser();
