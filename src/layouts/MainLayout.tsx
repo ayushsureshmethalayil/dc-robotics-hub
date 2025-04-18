@@ -1,8 +1,15 @@
 
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 
 const MainLayout = () => {
+  const location = useLocation();
+  
+  // Helper to check if the current route is active
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
       <header className="bg-black text-white p-4 animate-fade-in">
@@ -21,7 +28,12 @@ const MainLayout = () => {
                 ["Cart", "/cart"]
               ].map(([title, url], index) => (
                 <li key={url} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-                  <Link to={url} className="hover:text-gray-300 transition-colors hover:scale-105 transform inline-block">
+                  <Link 
+                    to={url} 
+                    className={`hover:text-gray-300 transition-colors hover:scale-105 transform inline-block ${
+                      isActive(url) ? "border-b-2 border-white" : ""
+                    }`}
+                  >
                     {title}
                   </Link>
                 </li>
