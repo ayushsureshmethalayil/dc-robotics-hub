@@ -1,116 +1,75 @@
-import React from 'react';
-import { useCart } from '../context/CartContext';
+import React, { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, updateQuantity, removeFromCart } = useContext(CartContext);
+
+  const handleChangeQuantity = (id: string, qty: number) => {
+    updateQuantity(id, qty);
+  };
+
+  const handleRemove = (id: string) => {
+    removeFromCart(id);
+  };
+
+  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <section className="text-center mb-12">
-        <h1 className="text-5xl font-bold mb-6 text-black">Your Cart</h1>
-        <p className="text-xl text-gray-600">Review your selected robotic solutions.</p>
-      </section>
+      <h1 className="text-3xl font-bold mb-6 text-black">Your Cart</h1>
 
-      <section>
-        {cartItems.length > 0 ? (
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.price}</td>
-                    <td>
-                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
-                    </td>
-                    <td>{item.price}</td>
-                    <td><button onClick={() => removeFromCart(item.id)}>Remove</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div>Total: {/* calculate total here */}</div>
-          </div>
-        ) : (
-          <div>Your cart is empty.</div>
-        )}
-      </section>
+      <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
+        <table className="min-w-full table-auto">
+          <thead>
+            <tr className="bg-gray-200 text-gray-600">
+              <th className="px-4 py-2">Product</th>
+              <th className="px-4 py-2">Price</th>
+              <th className="px-4 py-2">Quantity</th>
+              <th className="px-4 py-2">Total</th>
+              <th className="px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cartItems.map((item) => (
+              <tr key={item.id} className="border-t">
+                <td className="px-4 py-2">{item.name}</td>
+                <td className="px-4 py-2">${item.price.toFixed(2)}</td>
+                <td className="px-4 py-2">
+                  <input
+                    type="number"
+                    min="1"
+                    value={item.quantity}
+                    onChange={(e) => handleChangeQuantity(item.id, +e.target.value)}
+                    className="w-16 px-2 py-1 border border-gray-300 rounded"
+                  />
+                </td>
+                <td className="px-4 py-2">${(item.price * item.quantity).toFixed(2)}</td>
+                <td className="px-4 py-2">
+                  <button
+                    onClick={() => handleRemove(item.id)}
+                    className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mt-6 flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Total: ${total.toFixed(2)}</h2>
+        <Link
+          to="/checkout"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Proceed to Checkout
+        </Link>
+      </div>
     </div>
   );
 };
 
 export default Cart;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { useCart } from '../context/CartContext';
-
-// const Cart: React.FC = () => {
-//   const { cartItems, removeFromCart, clearCart } = useCart();
-
-//   const total = cartItems.reduce((acc, item) => acc + item.price, 0);
-
-//   return (
-//     <div className="container mx-auto py-12 px-4">
-//       <h1 className="text-4xl font-bold mb-6">Your Cart</h1>
-//       {cartItems.length === 0 ? (
-//         <p className="text-gray-600">Your cart is empty.</p>
-//       ) : (
-//         <div className="space-y-6">
-//           {cartItems.map((item, index) => (
-//             <div
-//               key={index}
-//               className="flex justify-between items-center border border-gray-300 rounded p-4"
-//             >
-//               <div>
-//                 <h2 className="text-lg font-semibold">{item.name}</h2>
-//                 <p className="text-gray-500">${item.price.toLocaleString()}</p>
-//               </div>
-//               <button
-//                 onClick={() => removeFromCart(item.id)}
-//                 className="text-red-500 hover:underline"
-//               >
-//                 Remove
-//               </button>
-//             </div>
-//           ))}
-//           <div className="text-right mt-6">
-//             <p className="text-xl font-bold">Total: ${total.toLocaleString()}</p>
-//             <button
-//               onClick={clearCart}
-//               className="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
-//             >
-//               Clear Cart
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Cart;
