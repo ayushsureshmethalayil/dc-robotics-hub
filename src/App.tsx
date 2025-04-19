@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +20,9 @@ import ProductDetail from "./pages/ProductDetail";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 
+// Import CartContext
+import { CartProvider } from "./context/CartContext";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -29,23 +31,25 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Index />} />
-            <Route path="about" element={<About />} />
-            <Route path="milestones" element={<Milestones />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="shop" element={<Shop />} />
-            <Route path="shop/:id" element={<ProductDetail />} />
-            <Route path="cart" element={<Cart />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="login" element={<AdminLogin />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Index />} />
+              <Route path="about" element={<About />} />
+              <Route path="milestones" element={<Milestones />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="shop/:id" element={<ProductDetail />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="login" element={<AdminLogin />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </CartProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
