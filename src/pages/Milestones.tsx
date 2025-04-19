@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Milestones = () => {
@@ -6,27 +5,32 @@ const Milestones = () => {
     {
       year: "2020",
       title: "Company Founded",
-      description: "DC Robotics was established with a vision to revolutionize industrial automation."
+      description: "DC Robotics was established with a vision to revolutionize industrial automation.",
+      imageUrl: "https://www.dropbox.com/scl/fi/4r8hxetlcu351z42aor28/IMG_9990.JPG?rlkey=u38q11yjt64s8mzix3dlzfb9c&st=09z4ih4a&dl=1"
     },
     {
       year: "2021",
       title: "First Major Project",
-      description: "Successfully implemented our first large-scale robotic solution for a manufacturing client."
+      description: "Successfully implemented our first large-scale robotic solution for a manufacturing client.",
+      imageUrl: "https://www.dropbox.com/scl/fi/onyaroxbjp1fuu923api3/20250130_091453.jpg?rlkey=zy570ep65dwp34ab8xx6mzoo8&st=w82j1pee&dl=1"
     },
     {
       year: "2022",
       title: "Product Line Expansion",
-      description: "Introduced our first series of collaborative robots designed for small and medium businesses."
+      description: "Introduced our first series of collaborative robots designed for small and medium businesses.",
+      imageUrl: "https://www.dropbox.com/scl/fi/597taurkmvo7d22aklkxb/20250124_123358.jpg?rlkey=8a3qt3y0j3ul9um9o8eugvpi3&st=90tn17br&dl=1"
     },
     {
       year: "2023",
       title: "International Expansion",
-      description: "Opened our first international office to serve clients across Europe and Asia."
+      description: "Opened our first international office to serve clients across Europe and Asia.",
+      imageUrl: "https://www.dropbox.com/scl/fi/597taurkmvo7d22aklkxb/20250124_123358.jpg?rlkey=8a3qt3y0j3ul9um9o8eugvpi3&st=o3yp59b3&dl=1"
     },
     {
       year: "2024",
       title: "MC600 Launch",
-      description: "Released our flagship MC600 Mobile Cobot, combining mobile robotics with collaborative arm technology."
+      description: "Released our flagship MC600 Mobile Cobot, combining mobile robotics with collaborative arm technology.",
+      imageUrl: "https://www.dropbox.com/scl/fi/r9bgc8rvm7duotg2b2tnm/20250120_160252.jpg?rlkey=y8n4k82re7a0kmkayoz2f1c4b&st=sdgjcxow&dl=1"
     }
   ];
 
@@ -62,6 +66,7 @@ const Milestones = () => {
                   <div className="bg-white border-2 border-black p-6 rounded-lg shadow-lg hover:scale-105 transition-transform">
                     <h3 className="text-2xl font-bold mb-2 text-black">{milestone.title}</h3>
                     <p className="text-gray-600">{milestone.description}</p>
+                    <img src={milestone.imageUrl} alt={milestone.title} className="mt-4 w-full h-auto rounded-lg shadow-md" />
                   </div>
                 </div>
               </div>
