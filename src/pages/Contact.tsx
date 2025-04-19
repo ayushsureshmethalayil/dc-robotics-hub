@@ -9,21 +9,21 @@ const Contact = () => {
     message: '',
   });
 
-  const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.id]: e.target.value
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       const response = await fetch("https://hook.us1.make.com/45to0w175p43ckuz2rfwaa6sjl8hfy5z", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
@@ -33,7 +33,6 @@ const Contact = () => {
         alert("Failed to send message.");
       }
     } catch (error) {
-      console.error("Error:", error);
       alert("An error occurred while sending the message.");
     }
   };
@@ -158,21 +157,6 @@ const Contact = () => {
           <div className="pt-6">
             <h3 className="font-bold text-black text-xl mb-4">Business Hours</h3>
             <p className="text-gray-600 mb-2">Monday - Sunday: 9:00 AM - 8:00 PM</p>
-          </div>
-
-          <div className="pt-6">
-            <h3 className="font-bold text-black text-xl mb-4">Find Us on the Map</h3>
-            <a
-              href="https://www.google.com/maps/place/DC+House,+VP+Marakar+Rd,+Nethaji+Nagar,+Edappally,+Ernakulam,+Kerala+682024"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="https://maps.googleapis.com/maps/api/staticmap?center=DC+House,+VP+Marakar+Rd,+Nethaji+Nagar,+Edappally,+Ernakulam,+Kerala+682024&zoom=15&size=600x300&maptype=roadmap&markers=color:red%7Clabel:D%7CDC+House,+Edappally&key=YOUR_GOOGLE_MAPS_API_KEY"
-                alt="DC Robotics Location"
-                className="w-full rounded-lg shadow-lg"
-              />
-            </a>
           </div>
         </div>
       </section>
