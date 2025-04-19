@@ -1,15 +1,17 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Bot } from 'lucide-react';
+import { useCart } from '../context/CartContext'; // adjust the path as needed
 
 const Shop = () => {
+  const { addToCart } = useCart();
+
   const products = [
     {
       id: "mc600",
       name: "MC600 Mobile Cobot",
-      description: "Combining the \"legs\" of a mobile robot with the \"arms\" of a cobot for complex automation tasks.",
-      price: "Contact for pricing",
+      description: "Combining the 'legs' of a mobile robot with the 'arms' of a cobot for complex automation tasks.",
+      price: "$42,000",
       image: "https://media.licdn.com/dms/image/v2/D5622AQFJq1Nho1VRwg/feedshare-shrink_2048_1536/B56ZPpzHtAG8Ao-/0/1734794313220?e=1747872000&v=beta&t=Y-2pluiDeUiMqWCaaBklE3lFgzaTe62kGVNGzYck6fU",
       features: [
         "Heavy-Duty Performance with extended reach",
@@ -84,21 +86,22 @@ const Shop = () => {
       <section className="mb-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
-            <Link 
-              to={`/shop/${product.id}`} 
+            <div
               key={product.id}
               className="bg-white border-2 border-black rounded-lg shadow-lg overflow-hidden hover:scale-105 transition-transform animate-scale-in"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className={`${product.image ? 'h-48' : 'h-32'} bg-gray-200 relative`}>
-                {product.image && (
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
+              <Link to={`/shop/${product.id}`}>
+                <div className={`${product.image ? 'h-48' : 'h-32'} bg-gray-200 relative`}>
+                  {product.image && (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              </Link>
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2 text-black">{product.name}</h3>
                 <p className="text-gray-600 mb-3">{product.description}</p>
@@ -111,11 +114,14 @@ const Shop = () => {
                     </div>
                   ))}
                 </div>
-                <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors w-full">
-                  View Details
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors w-full"
+                >
+                  Add to Cart
                 </button>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
