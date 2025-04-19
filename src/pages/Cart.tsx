@@ -1,17 +1,37 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 
 const Cart = () => {
-  // This is just a placeholder cart - in a real app you'd use state management
-  const cartItems = [
+  const [cartItems, setCartItems] = useState([
     {
       id: 1,
       name: "MC600 Mobile Cobot",
       price: "Contact for pricing",
-      quantity: 1
+      quantity: 1,
     }
-  ];
+  ]);
+
+  const increaseQuantity = (id) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (id) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
+  const removeItem = (id) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
+  };
 
   return (
     <div className="container mx-auto py-12 px-4">
@@ -43,18 +63,27 @@ const Cart = () => {
                       <td className="py-4 px-6">{item.price}</td>
                       <td className="py-4 px-6">
                         <div className="flex items-center space-x-2">
-                          <button className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center hover:bg-gray-300 transition-colors">
+                          <button
+                            onClick={() => decreaseQuantity(item.id)}
+                            className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300"
+                          >
                             -
                           </button>
                           <span>{item.quantity}</span>
-                          <button className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center hover:bg-gray-300 transition-colors">
+                          <button
+                            onClick={() => increaseQuantity(item.id)}
+                            className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300"
+                          >
                             +
                           </button>
                         </div>
                       </td>
                       <td className="py-4 px-6">{item.price}</td>
                       <td className="py-4 px-6">
-                        <button className="text-red-500 hover:text-red-700 transition-colors">
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
                           Remove
                         </button>
                       </td>
@@ -62,13 +91,13 @@ const Cart = () => {
                   ))}
                 </tbody>
               </table>
-              
+
               <div className="p-6 bg-gray-50 border-t border-gray-200">
                 <div className="flex justify-between items-center mb-6">
                   <span className="font-bold text-lg">Total:</span>
                   <span className="font-bold text-xl">Contact for pricing</span>
                 </div>
-                
+
                 <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                   <Button className="bg-white border-2 border-black text-black hover:bg-gray-100 flex-1">
                     Continue Shopping
