@@ -1,36 +1,33 @@
+'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Button } from "@/components/ui/button";
 
 const Cart = () => {
+  const router = useRouter();
+
+  // State for cart items
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
       name: "MC600 Mobile Cobot",
       price: "Contact for pricing",
-      quantity: 1,
+      quantity: 1
     }
   ]);
 
-  const increaseQuantity = (id) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
+  const handleRemove = (id: number) => {
+    setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
-  const decreaseQuantity = (id) => {
-    setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
+  const handleQuantityChange = (id: number, delta: number) => {
+    setCartItems(prev =>
+      prev.map(item =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
           : item
       )
     );
-  };
-
-  const removeItem = (id) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
   return (
@@ -64,15 +61,15 @@ const Cart = () => {
                       <td className="py-4 px-6">
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={() => decreaseQuantity(item.id)}
-                            className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300"
+                            onClick={() => handleQuantityChange(item.id, -1)}
+                            className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center hover:bg-gray-300 transition-colors"
                           >
                             -
                           </button>
                           <span>{item.quantity}</span>
                           <button
-                            onClick={() => increaseQuantity(item.id)}
-                            className="w-8 h-8 bg-gray-200 rounded hover:bg-gray-300"
+                            onClick={() => handleQuantityChange(item.id, 1)}
+                            className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center hover:bg-gray-300 transition-colors"
                           >
                             +
                           </button>
@@ -81,8 +78,8 @@ const Cart = () => {
                       <td className="py-4 px-6">{item.price}</td>
                       <td className="py-4 px-6">
                         <button
-                          onClick={() => removeItem(item.id)}
-                          className="text-red-500 hover:text-red-700"
+                          onClick={() => handleRemove(item.id)}
+                          className="text-red-500 hover:text-red-700 transition-colors"
                         >
                           Remove
                         </button>
@@ -99,7 +96,10 @@ const Cart = () => {
                 </div>
 
                 <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
-                  <Button className="bg-white border-2 border-black text-black hover:bg-gray-100 flex-1">
+                  <Button
+                    className="bg-white border-2 border-black text-black hover:bg-gray-100 flex-1"
+                    onClick={() => router.push("/shop")}
+                  >
                     Continue Shopping
                   </Button>
                   <Button className="bg-black text-white hover:bg-gray-800 flex-1">
@@ -112,7 +112,10 @@ const Cart = () => {
             <div className="p-12 text-center">
               <h2 className="text-2xl font-bold mb-4 text-black">Your cart is empty</h2>
               <p className="text-gray-600 mb-6">Add some products to get started.</p>
-              <Button className="bg-black text-white hover:bg-gray-800">
+              <Button
+                className="bg-black text-white hover:bg-gray-800"
+                onClick={() => router.push("/shop")}
+              >
                 Browse Products
               </Button>
             </div>
